@@ -1,0 +1,187 @@
+/*QUESTION*/
+
+Consider the database schema Employee(Eid, Name, Depid, Qualification, Age), 
+Salary(Eid, Basic, D.A. HRA, Bonus, Total_Salary) and
+Department(Depid, Desc, HoD, Location)
+write SQL queries for the following:
+
+Contains: 
+Eid in both the tables is the primary key.
+Age must be greater than 18 and less than 60.
+Eid is a 6 digit alphanumeric code stars with 'EMP" followed by 3 digit number. (Maintain at insertion)
+Depid is a 6 digit alphanumeric code stats with 'Dep' followed by 3 digit number. (Maintain at insertion)
+D.A is 25% of the Basic Salary.
+HRA is 8% of the Basic Salary.
+Bonus is 5% of Basic Salary.
+Depid is the primary key in the Department table.
+HoD represents Head of the Department must be an Employee from Employee table, stores Eid.
+Desc is department description.
+
+Task: 
+Create the Department table with the above-mentioned details.
+Insert all the Department details in the Department table.
+Add new Field NoE in the Department table. NoE represents the number of employees present in the Employee Department for a specific department.
+Update the NoE field values using a query by counting the number of employees from the Employees table.
+
+Queries:
+Display the name and qualification of all the HoDs whose department is located in Kolkata.
+Display the name, department, and salary of all the employees that are HoD of some department
+Display the details of all the employees who are younger than average employee age.
+Display the details of the highest-paid HoD.
+Change the HoD of Dep103 to Emp109.
+Display the department details and average salary received by each Department.
+
+
+/*SOULTION*/
+
+/*CREATING DATABASE ASSIGN3*/
+
+CREATE DATABASE Assign3;
+
+/*CREATING TABLE EMPLOYEE*/
+
+mysql> CREATE TABLE Employee(
+    -> EID VARCHAR(6) Primary Key,
+    -> Name Char(20) NOT NULL,
+    -> DEPID VARCHAR(6) NOT NULL,
+    -> Qualification char(10) NOT NULL,
+    -> Age INT NOT NULL
+    -> );
+Query OK, 0 rows affected (0.97 sec)
+
+mysql> desc Employee;
++---------------+------------+------+-----+---------+-------+
+| Field         | Type       | Null | Key | Default | Extra |
++---------------+------------+------+-----+---------+-------+
+| EID           | varchar(6) | NO   | PRI | NULL    |       |
+| Name          | char(20)   | NO   |     | NULL    |       |
+| DEPID         | varchar(6) | NO   |     | NULL    |       |
+| Qualification | char(10)   | NO   |     | NULL    |       |
+| Age           | int        | NO   |     | NULL    |       |
++---------------+------------+------+-----+---------+-------+
+5 rows in set (0.48 sec)
+
+/*CREATING TABLE SALARY*/
+
+mysql> CREATE TABLE Salary(
+    -> EID VARCHAR(6) Primary Key,
+    -> Basic DECIMAL(12,4) NOT NULL,
+    -> DA DECIMAL(12,4) AS (Basic*0.25),
+    -> HRA DECIMAL(12,4) AS (Basic*0.08),
+    -> Bonus DECIMAL(12,4) AS (Basic*0.05),
+    -> Total_Salary DECIMAL (12,4) AS (Basic+DA+HRA+BONUS));
+Query OK, 0 rows affected (2.81 sec)
+
+mysql> desc Salary;
++--------------+---------------+------+-----+---------+-------------------+
+| Field        | Type          | Null | Key | Default | Extra             |
++--------------+---------------+------+-----+---------+-------------------+
+| EID          | varchar(6)    | NO   | PRI | NULL    |                   |
+| Basic        | decimal(12,4) | NO   |     | NULL    |                   |
+| DA           | decimal(12,4) | YES  |     | NULL    | VIRTUAL GENERATED |
+| HRA          | decimal(12,4) | YES  |     | NULL    | VIRTUAL GENERATED |
+| Bonus        | decimal(12,4) | YES  |     | NULL    | VIRTUAL GENERATED |
+| Total_Salary | decimal(12,4) | YES  |     | NULL    | VIRTUAL GENERATED |
++--------------+---------------+------+-----+---------+-------------------+
+6 rows in set (0.21 sec)
+
+/*CREATING TABLE DEPARTMENT*/
+
+mysql> CREATE TABLE  Department(
+    -> DEPID VARCHAR(6) Primary Key,
+    -> Description Varchar(100),
+    -> HOD CHAR(20) NOT NULL,
+    -> Location CHAR(10) NOT NULL);
+Query OK, 0 rows affected (2.34 sec)
+
+mysql> desc Department;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| DEPID       | varchar(6)   | NO   | PRI | NULL    |       |
+| Description | varchar(100) | YES  |     | NULL    |       |
+| HOD         | char(20)     | NO   |     | NULL    |       |
+| Location    | char(10)     | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.48 sec)
+
+/*QUERIES*/
+
+
+/*Display the name and qualification of all the HoDs whose department is located in Kolkata*/
+
+mysql> SELECT d.HOD,e.Name,e.Qualification FROM department d,employee e WHERE e.EID=d.HOD AND Location='Kolkata';
++--------+--------------+---------------+
+| HOD    | Name         | Qualification |
++--------+--------------+---------------+
+| EMP207 | Animesh Das  | Madhyamik     |
+| EMP214 | Anindita Dey | HS            |
++--------+--------------+---------------+
+2 rows in set (0.00 sec)
+
+
+/*Display the name, department, and salary of all the employees that are HoD of some department*/
+
+mysql> SELECT e.Name,d.Description AS 'Department ',s.Total_Salary
+    -> FROM Employee e,Department d,Salary s
+    -> WHERE (e.EID=d.HOD AND e.EID=s.EID);
++----------------+-----------------------------+--------------+
+| Name           | Department                  | Total_Salary |
++----------------+-----------------------------+--------------+
+| Raktim Ghoshal | Marketing and Sales         |   13800.0000 |
+| Animesh Das    | General Management          |   11040.0000 |
+| Anindita Dey   | Purchase and Product Design |   12420.0000 |
++----------------+-----------------------------+--------------+
+3 rows in set (0.00 sec)
+
+
+/*Display the details of all the employees who are younger than average employee age*/
+
+mysql> SELECT EID,Name,Qualification,Age FROM employee WHERE Age<(SELECT AVG(Age) FROM employee);
++--------+----------------+---------------+-----+
+| EID    | Name           | Qualification | Age |
++--------+----------------+---------------+-----+
+| EMP201 | Suman Das      | Graduate      |  22 |
+| EMP202 | Roop Paul      | Madhyamik     |  22 |
+| EMP204 | Abanish Santra | Post_Grad     |  22 |
+| EMP205 | Akash Banerjee | Post_Grad     |  22 |
+| EMP211 | Samrat Bardhan | Post_Grad     |  21 |
++--------+----------------+---------------+-----+
+5 rows in set (0.00 sec)
+
+
+/*Display the details of the highest-paid HoD*/
+
+mysql> SELECT e.Name , d.Description AS dept_name , s.Total_salary
+    -> FROM employee e,department d,salary s
+    -> WHERE e.EID=s.EID AND e.EID=d.HOD AND
+    -> Total_Salary=(SELECT MAX(s.Total_Salary) FROM Salary s,department d WHERE s.EID=d.HOD);
++----------------+---------------------+--------------+
+| Name           | dept_name           | Total_salary |
++----------------+---------------------+--------------+
+| Raktim Ghoshal | Marketing and Sales |   13800.0000 |
++----------------+---------------------+--------------+
+1 row in set (0.00 sec)
+
+
+/*Change the HoD of Dep103 to Emp109*/
+
+mysql> UPDATE department SET HOD='EMP209' WHERE DEPID='DEP103';
+Query OK, 1 row affected (0.82 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+/*Display the department details and average salary received by each Department*/
+
+mysql> SELECT e.DEPID,d.description AS Department,d.HOD,AVG(s.Total_Salary) AS 'Average_Salary'
+    -> FROM Employee e,Salary s,department d
+    -> WHERE d.DEPID=e.DEPID AND e.EID=s.EID
+    -> GROUP BY DEPID;
++--------+-----------------------------+--------+----------------+
+| DEPID  | Department                  | HOD    | Average_Salary |
++--------+-----------------------------+--------+----------------+
+| DEP101 | Marketing and Sales         | EMP210 |  9545.00000000 |
+| DEP103 | Purchase and Product Design | EMP214 | 11730.00000000 |
+| DEP102 | General Management          | EMP207 |  9200.00000000 |
++--------+-----------------------------+--------+----------------+
+3 rows in set (0.07 sec)
