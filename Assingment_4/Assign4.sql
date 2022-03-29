@@ -1,3 +1,9 @@
+                                                                    /*Name : Anish Naskar*/
+                                                                    /*M.Sc data science  */
+                                                                    /*SEM 1              */
+
+
+
 CREATE DATABASE Assign4;
 
 USE Assign4;
