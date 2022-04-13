@@ -71,9 +71,16 @@ WHERE
     Name LIKE 'H%';
     
 /*To add a new column in the salary table. The column name is Total_Sal*/
-/*To store the corresponding values in the Total_Sal column as Basic + D.A. + HRA + Bonus*/
+
 
 ALTER TABLE 
 	Salary 
 ADD 
-	Total_Sal DECIMAL(12,4) AS (Basic + DA + HRA + Bonus) NOT NULL;
+	Total_Sal DECIMAL(12,4) NOT NULL;
+	
+/*To store the corresponding values in the Total_Sal column as Basic + D.A. + HRA + Bonus*/
+
+UPDATE 
+	Salary
+SET
+	Total_Sal = (Basic + DA + HRA + Bonus);
