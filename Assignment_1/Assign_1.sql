@@ -11,7 +11,7 @@ CREATE TABLE Employee (
     Name VARCHAR(40) NOT NULL,
     DEPID INT NOT NULL,
     Qualification VARCHAR(10) NOT NULL,
-    Age INT NOT NULL
+    Age INT CHECK (Age > 18 AND Age < 60) NOT NULL
 );
 
 /*Inserting Values Into Employee*/
