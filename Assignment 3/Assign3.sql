@@ -1,6 +1,6 @@
 /*QUESTION*/
 
-Consider the database schema Employee(Eid, Name, Depid, Qualification, Age), 
+/*Consider the database schema Employee(Eid, Name, Depid, Qualification, Age), 
 Salary(Eid, Basic, D.A. HRA, Bonus, Total_Salary) and
 Department(Depid, Desc, HoD, Location)
 write SQL queries for the following:
@@ -29,7 +29,7 @@ Display the name, department, and salary of all the employees that are HoD of so
 Display the details of all the employees who are younger than average employee age.
 Display the details of the highest-paid HoD.
 Change the HoD of Dep103 to Emp109.
-Display the department details and average salary received by each Department.
+Display the department details and average salary received by each Department.*/
 
 
 /*SOULTION*/
