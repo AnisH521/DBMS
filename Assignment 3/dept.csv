@@ -1,0 +1,6 @@
+DEPID,Description,HOD,Location,NOE
+DEP101,"Human Resource",EMP103,Howrah,3
+DEP102,Management,EMP109,Sealdah,4
+DEP103,Sales,EMP110,Kolkata,4
+DEP104,"Product Design",EMP104,Kolkata,2
+DEP105,Marketing,EMP101,Kolkata,2

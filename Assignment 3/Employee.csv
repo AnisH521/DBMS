@@ -1,0 +1,16 @@
+EID,Name,DEPID,Qualification,Age
+EMP101,"Kaustav Sen",DEP101,Post_Grad,22
+EMP102,"Subhranil Sur",DEP103,Post_Grad,23
+EMP103,"Sharmistha Das",DEP105,Graduate,22
+EMP104,"Harshita Kaur",DEP102,Madhyamik,22
+EMP105,"Suman Das",DEP103,HS,23
+EMP106,"Hrisikesh Mal",DEP104,Post_Grad,22
+EMP107,"Ayantika Dey",DEP103,Madhyamik,23
+EMP108,"Rakesh Parwal",DEP101,Graduate,24
+EMP109,"Somsubhra Das",DEP105,Madhyamik,22
+EMP110,"sayani Sen",DEP102,HS,24
+EMP111,"Ankit Debnath",DEP102,Madhyamik,23
+EMP112,"Raktim Ghoshal",DEP102,Madhyamik,23
+EMP113,"Samrat Bardhan",DEP104,Post_Grad,21
+EMP114,"Mukesh Bardhan",DEP103,Post_Grad,21
+EMP115,"Avik Roy",DEP101,Post_Grad,21
